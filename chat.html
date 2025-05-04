@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chatbot</title>
+  <style>
+    body { font-family: Arial; margin: 0; padding: 0; background: #f5f5f5; }
+    #chat { max-width: 600px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 10px; }
+    .message { margin: 10px 0; }
+    .user { text-align: right; color: blue; }
+    .bot { text-align: left; color: green; }
+    #inputForm { display: flex; margin-top: 20px; }
+    input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px 15px; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+<div id="chat">
+  <h2>🤖 AI Chat</h2>
+  <div id="messages"></div>
+  <form id="inputForm">
+    <input type="text" id="messageInput" placeholder="Type your message..." autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+  const ws = new WebSocket("ws:///http://13.239.250.26:8000/ws");
+  const messagesDiv = document.getElementById("messages");
+  const inputForm = document.getElementById("inputForm");
+  const messageInput = document.getElementById("messageInput");
+
+  ws.onmessage = (event) => {
+    const msg = document.createElement("div");
+    msg.classList.add("message", "bot");
+    msg.textContent = "🤖 " + event.data;
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  };
+
+  inputForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userText = messageInput.value.trim();
+    if (!userText) return;
+
+    const userMsg = document.createElement("div");
+    userMsg.classList.add("message", "user");
+    userMsg.textContent = "🧑 " + userText;
+    messagesDiv.appendChild(userMsg);
+
+    ws.send(userText);
+    messageInput.value = "";
+  });
+
+  ws.onopen = () => console.log("✅ WebSocket connected");
+  ws.onclose = () => alert("🔌 Disconnected from chat server");
+</script>
+
+</body>
+</html>
