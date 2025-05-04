@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to your project directory
-PROJECT_DIR="/home/ec2-user/your-project-folder"
+PROJECT_DIR="/home/ec2-user/hologram"
 
 echo "📁 Navigating to project directory: $PROJECT_DIR"
 cd "$PROJECT_DIR" || { echo "❌ Project directory not found!"; exit 1; }
@@ -28,4 +28,4 @@ pkill -f "uvicorn main:app" || true
 echo "🚀 Starting FastAPI server with Uvicorn..."
 nohup uvicorn chat_fastAPI:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
 
-echo "✅ Deployment complete. App should be running at http://<your-ec2-ip>:8000"
+echo "✅ Deployment complete. App should be running at http://172-31-40-245:8000"
