@@ -23,9 +23,9 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 echo "🛑 Stopping any existing Uvicorn process..."
-pkill -f "uvicorn main:app" || true
+pkill -f "uvicorn chat_fastAPI:app" || true
 
 echo "🚀 Starting FastAPI server with Uvicorn..."
 nohup uvicorn chat_fastAPI:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
 
-echo "✅ Deployment complete. App should be running at http://172-31-40-245:8000"
+echo "✅ Deployment complete. App should be running at http://13.239.250.26:8000"
