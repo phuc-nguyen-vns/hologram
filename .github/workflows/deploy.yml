@@ -3,17 +3,14 @@ name: 🚀 Deploy FastAPI to EC2
 on:
   push:
     branches:
-      - main  # Replace with 'master' if that's your default branch
+      - main  # change to 'master' if needed
 
 jobs:
   deploy:
-    name: 🔁 Deploy to EC2
+    name: 🔁 Run deploy.sh on EC2
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📦 Checkout repo
-        uses: actions/checkout@v3
-
       - name: 🔐 Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -21,11 +18,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: 🚀 Connect and Deploy
+      - name: 🚀 Run deploy script on EC2
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/ec2-user/hologram  # replace if needed
-            git pull origin main
-            chmod +x deploy.sh
-            ./deploy.sh
-          EOF
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'bash /home/ec2-user/hologram/deploy.sh'
