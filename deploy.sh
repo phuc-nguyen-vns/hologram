@@ -28,4 +28,7 @@ pkill -f "uvicorn chat_fastAPI:app" || true
 echo "🚀 Starting FastAPI server with Uvicorn..."
 nohup uvicorn chat_fastAPI:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
 
+echo "🔁 Starting WebSocket service (port 8001)..."
+nohup uvicorn chat_ws:app --host 0.0.0.0 --port 8001 > ws_server.log 2>&1 &
+
 echo "✅ Deployment complete. App should be running at http://13.239.250.26:8000"
