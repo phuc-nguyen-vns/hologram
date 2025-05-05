@@ -24,6 +24,7 @@ pip install -r requirements.txt
 
 echo "🛑 Stopping any existing Uvicorn process..."
 pkill -f "uvicorn chat_fastAPI:app" || true
+pkill -f "uvicorn chat_ws:app" || true
 
 echo "🚀 Starting FastAPI server with Uvicorn..."
 nohup uvicorn chat_fastAPI:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &
